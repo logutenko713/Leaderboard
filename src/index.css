@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #006d30;
+  --color-primary-container: #00ab4f;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #003514;
+  --color-success: #0E9344;
+  --color-error: #ba1a1a;
+
+  --color-surface: #f7fafc;
+  --color-surface-bright: #f7fafc;
+  --color-surface-container: #ebeef0;
+  --color-surface-container-low: #f1f4f6;
+  --color-surface-container-high: #e5e9eb;
+  --color-surface-container-highest: #e0e3e5;
+  --color-surface-variant: #e0e3e5;
+
+  --color-secondary: #5d5e61;
+  --color-secondary-fixed-dim: #c6c6c9;
+  --color-tertiary: #5d3fe0;
+  --color-tertiary-container: #9582ff;
+  --color-on-tertiary-container: #2b0092;
+
+  --color-on-surface: #181c1e;
+  --color-on-surface-variant: #3d4a3d;
+  --color-on-background: #181c1e;
+  --color-outline: #6d7b6c;
+  --color-outline-variant: #bccaba;
+  --color-border-subtle: #E5E7EB;
+
+  --color-gold-medal: #FFD700;
+  --color-silver-medal: #C0C0C0;
+  --color-bronze-medal: #CD7F32;
+
+  --spacing-gutter: 16px;
+  --spacing-container-padding: 24px;
+  --spacing-unit: 8px;
+  --spacing-card-padding: 24px;
+  --spacing-stack-sm: 8px;
+  --spacing-stack-md: 16px;
+  --spacing-stack-lg: 32px;
+  --spacing-margin-mobile: 16px;
+  --spacing-margin-desktop: 32px;
+
+  --font-body-md: "Hanken Grotesk", sans-serif;
+  --font-headline-lg: "Manrope", sans-serif;
+
+  --text-body-sm: 14px;
+  --text-body-md: 16px;
+  --text-body-lg: 18px;
+  --text-label-sm: 12px;
+  --text-label-md: 14px;
+  --text-headline-md: 20px;
+  --text-headline-lg: 24px;
+  --text-headline-xl: 32px;
+  --text-display-lg: 48px;
+}
+
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-display: block;
+  src: local('Material Symbols Outlined');
+}
