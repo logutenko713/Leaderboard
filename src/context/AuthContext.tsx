@@ -1,71 +1,90 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import type { AuthUser } from '../types/auth';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import type { AuthUser, RawAuthUser, RawShortStudent } from '../types/auth';
 import { API_ENDPOINTS } from '../api/config';
 
 interface AuthContextValue {
-    user: AuthUser | null;
-    token: string | null;
-    isLoading: boolean;
-    login: (token: string, user: AuthUser) => void;
-    logout: () => void;
+  user: AuthUser | null;
+  accessToken: string | null;
+  isLoading: boolean;
+  login: (accessToken: string, refreshToken: string, rawUser: RawAuthUser, rawStudent: RawShortStudent | null) => void;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+function buildAuthUser(rawUser: RawAuthUser, rawStudent: RawShortStudent | null): AuthUser {
+  return {
+    id: rawStudent?.login ?? rawUser.username,
+    name: rawStudent?.full_name ?? rawUser.full_name,
+    group: rawStudent?.student_group ?? null,
+    role: rawUser.role,
+  };
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<AuthUser | null>(null);
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
-    const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(
+    localStorage.getItem('accessToken')
+  );
+  const [isLoading, setIsLoading] = useState(true);
 
-    useEffect (() => {
-        if (!token) {
-            setIsLoading(false);
-            return;
-        }
+  useEffect(() => {
+    if (!accessToken) {
+      setIsLoading(false);
+      return;
+    }
 
-        fetch(API_ENDPOINTS.me, {
-            headers: {Authorization: `Bearer ${token}`},
-        })
-            .then((res) => {
-                if (!res.ok) throw new Error('Invalid token');
-                return res.json();
-            })
-            .then((data:AuthUser) => {
-                setUser(data);
-            })
-            .catch(() => {
-                localStorage.removeItem('token');
-                setToken(null);
-                setUser(null);
-            })
-            .finally(() =>{
-                setIsLoading(false);
-            });
-    }, []);
-
-    const login = (newToken: string, newUser: AuthUser) => {
-        localStorage.setItem('token', newToken);
-        setToken(newToken);
-        setUser(newUser);
-    };
-
-    const logout = () => {
-        localStorage.removeItem('token');
-        setToken(null);
+    fetch(API_ENDPOINTS.me, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error('Invalid token');
+        return res.json();
+      })
+      .then((data: { user: RawAuthUser; student: RawShortStudent | null }) => {
+        setUser(buildAuthUser(data.user, data.student));
+      })
+      .catch(() => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        setAccessToken(null);
         setUser(null);
-    };
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{ user, token, isLoading, login, logout}}>
-            {children}
-        </AuthContext.Provider>
-    );
+  const login = (
+    newAccessToken: string,
+    newRefreshToken: string,
+    rawUser: RawAuthUser,
+    rawStudent: RawShortStudent | null
+  ) => {
+    localStorage.setItem('accessToken', newAccessToken);
+    localStorage.setItem('refreshToken', newRefreshToken);
+    setAccessToken(newAccessToken);
+    setUser(buildAuthUser(rawUser, rawStudent));
+  };
+
+  const logout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    setAccessToken(null);
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, accessToken, isLoading, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
-    const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error('useAuth must be used within AuthProvider');
-    }
-    return context;
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider');
+  }
+  return context;
 }

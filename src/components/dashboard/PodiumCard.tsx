@@ -63,7 +63,7 @@ export function PodiumCard({ student, place }: PodiumCardProps) {
     .toUpperCase();
 
   return (
-    <div className={`flex flex-col items-center ${place === 1 ? '-mt-12 w-1/3 max-w-[240px]' : 'w-1/3 max-w-[200px]'}`}>
+    <div className={`flex flex-col items-center min-w-0 ${place === 1 ? '-mt-12 w-1/3 max-w-[240px]' : 'w-1/3 max-w-[200px]'}`}>
       <div className="relative mb-2">
         <div className={`${config.avatarSize} rounded-full bg-surface-variant border-4 ${config.borderClass} shadow-lg flex items-center justify-center font-bold text-on-surface-variant text-xl`}>
             {initials}
@@ -74,9 +74,12 @@ export function PodiumCard({ student, place }: PodiumCardProps) {
       </div>
 
       <div className="text-center">
-        <h4 className={`${config.nameTextClass} text-on-background font-bold truncate w-full`}>
-          {student.name}
-        </h4>
+       <h4
+        title={student.name}
+        className={`${config.nameTextClass} text-on-background font-bold text-center break-words w-full`}
+      >
+        {student.name.split(' ').slice(0, 2).join(' ')}
+      </h4>
         <div className="flex items-center justify-center gap-1 mt-1">
           <span className={`${config.scoreTextClass} text-primary font-bold`}>{student.score}</span>
           <span className="text-label-sm text-on-surface-variant font-medium">XP</span>

@@ -16,11 +16,11 @@ export function LeaderboardTable({ students, startRank }: LeaderboardTableProps)
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-surface border-b border-outline-variant">
-              <th className="py-4 px-6 text-label-md text-on-surface-variant font-semibold tracking-wider w-16 text-center">МЕСТО</th>
-              <th className="py-4 px-6 text-label-md text-on-surface-variant font-semibold tracking-wider">СТУДЕНТ</th>
-              <th className="py-4 px-6 text-label-md text-on-surface-variant font-semibold tracking-wider hidden sm:table-cell">ГРУППА</th>
-              <th className="py-4 px-6 text-label-md text-on-surface-variant font-semibold tracking-wider hidden md:table-cell text-right">ЧАСЫ</th>
-              <th className="py-4 px-6 text-label-md text-on-surface-variant font-semibold tracking-wider text-right">БАЛЛ (XP)</th>
+              <th className="py-4 px-3 sm:px-6 text-label-md text-on-surface-variant font-semibold tracking-wider w-16 text-center">МЕСТО</th>
+              <th className="py-4 px-3 sm:px-6 text-label-md text-on-surface-variant font-semibold tracking-wider">СТУДЕНТ</th>
+              <th className="py-4 px-3 sm:px-6 text-label-md text-on-surface-variant font-semibold tracking-wider hidden sm:table-cell">ГРУППА</th>
+              <th className="py-4 px-3 sm:px-6 text-label-md text-on-surface-variant font-semibold tracking-wider hidden md:table-cell text-right">ЧАСЫ</th>
+              <th className="py-4 px-3 sm:px-6 text-label-md text-on-surface-variant font-semibold tracking-wider text-right whitespace-nowrap">БАЛЛ (XP)</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-outline-variant/50">

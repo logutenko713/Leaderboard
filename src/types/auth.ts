@@ -1,18 +1,45 @@
+export type UserRole = 'admin' | 'manager' | 'student';
+
 export interface LoginCredentials {
-    login: string;
-    password: string;
+  username: string;
+  password: string;
 }
 
-export interface AuthUser {
-    id: number;
-    name: string;
-    group: string;
-    school: string;
-    direction: string;
-    course: number;
+export interface RawAuthUser {
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  full_name: string;
+  role: UserRole;
+}
+
+export interface RawShortStudent {
+  login: string;
+  full_name: string;
+  student_group: string;
+  top_view: string;
+  history_work_sem: string;
 }
 
 export interface LoginResponse {
-    token: string;
-    user: AuthUser;
+  need_consent: boolean;
+  temp_token?: string;
+  message?: string;
+  access?: string;
+  refresh?: string;
+  user?: RawAuthUser;
+}
+
+export interface MeResponse {
+  user: RawAuthUser;
+  student: RawShortStudent | null;
+  consent_given: boolean;
+}
+
+export interface AuthUser {
+  id: string;
+  name: string;
+  group: string | null;
+  role: UserRole;
 }

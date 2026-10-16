@@ -1,7 +1,7 @@
 import type { Project } from './projects';
 
 export interface PublicProfile {
-  id: number;
+  id: string;
   name: string;
   group: string;
   school: string;

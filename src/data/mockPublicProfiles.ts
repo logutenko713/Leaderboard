@@ -2,7 +2,7 @@ import type { PublicProfile } from '../types/publicProfile';
 
 export const mockPublicProfiles: Record<number, PublicProfile> = {
   1: {
-    id: 1, name: 'Иван М.', group: '8К52Т', school: 'ИШИТР',
+    id: '1', name: 'Иван М.', group: '8К52Т', school: 'ИШИТР',
     direction: 'Программная инженерия', course: 2,
     score: 3420, hoursWorked: 210, rank: 10, totalStudents: 452,
     skills: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
@@ -12,7 +12,7 @@ export const mockPublicProfiles: Record<number, PublicProfile> = {
     ],
   },
   4: {
-    id: 4, name: 'Мария Петрова', group: '8В42', school: 'ИШИТР',
+    id: '4', name: 'Мария Петрова', group: '8В42', school: 'ИШИТР',
     direction: 'Информатика и вычислительная техника', course: 3,
     score: 2450, hoursWorked: 142, rank: 4, totalStudents: 452,
     skills: ['Python', 'Wireshark', 'Kali Linux'],

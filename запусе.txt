@@ -1,0 +1,11 @@
+venv\Scripts\activate
+python manage.py makemigrations
+python manage.py migrate
+
+
+docker ps
+docker start leaderboard-postgres
+docker start leaderboard-redis
+python manage.py migrate
+python manage.py runserver
+python manage.py createsuperuser
