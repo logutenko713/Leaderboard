@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { navSections } from '../../config/navigation';
 
 interface SidebarProps {
   isMobileOpen: boolean;
@@ -8,6 +9,10 @@ interface SidebarProps {
 
 export function Sidebar({ isMobileOpen, onMobileClose }: SidebarProps) {
   const { user } = useAuth();
+
+  const visibleSections = navSections.filter(
+    (section) => !section.requires || user?.permissions.includes(section.requires)
+  );
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 rounded-lg p-3 mx-2 text-label-md transition-all duration-200 ${
@@ -48,19 +53,28 @@ export function Sidebar({ isMobileOpen, onMobileClose }: SidebarProps) {
           )}
         </div>
 
-        <nav className="flex-1 px-2 flex flex-col gap-1">
-          <NavLink to="/" end className={navLinkClass} onClick={onMobileClose}>
-            <span className="material-symbols-outlined">leaderboard</span>
-            Рейтинг
-          </NavLink>
-          <NavLink to="/profile" className={navLinkClass} onClick={onMobileClose}>
-            <span className="material-symbols-outlined">person</span>
-            Личный кабинет
-          </NavLink>
-          <NavLink to="/settings" className={navLinkClass} onClick={onMobileClose}>
-            <span className="material-symbols-outlined">settings</span>
-            Настройки
-          </NavLink>
+        <nav className="flex-1 flex flex-col gap-1">
+          {visibleSections.map((section, index) => (
+            <div key={section.title ?? `section-${index}`} className="flex flex-col gap-1">
+              {section.title && (
+                <p className="px-5 pt-4 pb-1 text-label-sm uppercase tracking-wider text-on-surface-variant">
+                  {section.title}
+                </p>
+              )}
+              {section.items.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  end={item.end}
+                  className={navLinkClass}
+                  onClick={onMobileClose}
+                >
+                  <span className="material-symbols-outlined">{item.icon}</span>
+                  {item.label}
+                </NavLink>
+              ))}
+            </div>
+          ))}
         </nav>
       </aside>
     </>

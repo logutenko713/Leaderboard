@@ -42,4 +42,7 @@ export interface AuthUser {
   name: string;
   group: string | null;
   role: UserRole;
+  permissions: Permission[];
 }
+
+export type Permission = 'expert' | 'organizer';

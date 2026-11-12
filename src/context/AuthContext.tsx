@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import type { AuthUser, RawAuthUser, RawShortStudent } from '../types/auth';
 import { API_ENDPOINTS } from '../api/config';
+import type { AuthUser, Permission, RawAuthUser, RawShortStudent, UserRole } from '../types/auth';
 
 interface AuthContextValue {
   user: AuthUser | null;
@@ -12,12 +12,18 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+// ВРЕМЕННО: пока бэк не отдаёт права, выводим их из роли
+function permissionsFromRole(role: UserRole): Permission[] {
+  return role === 'admin' || role === 'manager' ? ['organizer'] : [];
+}
+
 function buildAuthUser(rawUser: RawAuthUser, rawStudent: RawShortStudent | null): AuthUser {
   return {
     id: rawStudent?.login ?? rawUser.username,
     name: rawStudent?.full_name ?? rawUser.full_name,
     group: rawStudent?.student_group ?? null,
     role: rawUser.role,
+    permissions: permissionsFromRole(rawUser.role),
   };
 }
 
